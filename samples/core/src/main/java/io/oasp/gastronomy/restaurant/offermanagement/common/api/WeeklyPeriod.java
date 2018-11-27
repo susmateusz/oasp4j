@@ -2,11 +2,13 @@ package io.oasp.gastronomy.restaurant.offermanagement.common.api;
 
 import java.time.DayOfWeek;
 
+import io.oasp.gastronomy.restaurant.general.common.api.ApplicationEntity;
+
 /**
  * @author MATSUS
  *
  */
-public interface WeeklyPeriod {
+public interface WeeklyPeriod extends ApplicationEntity {
   /**
    * @return startingDay
    */
