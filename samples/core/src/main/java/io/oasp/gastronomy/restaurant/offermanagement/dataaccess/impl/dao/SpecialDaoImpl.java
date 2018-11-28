@@ -3,7 +3,7 @@ package io.oasp.gastronomy.restaurant.offermanagement.dataaccess.impl.dao;
 import static com.querydsl.core.alias.Alias.$;
 
 import java.time.DayOfWeek;
-import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Named;
 
@@ -11,6 +11,7 @@ import com.querydsl.core.alias.Alias;
 import com.querydsl.core.types.dsl.EntityPathBase;
 import com.querydsl.jpa.impl.JPAQuery;
 
+import io.oasp.gastronomy.restaurant.general.common.api.datatype.Money;
 import io.oasp.gastronomy.restaurant.general.dataaccess.base.dao.ApplicationMasterDataDaoImpl;
 import io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.SpecialEntity;
 import io.oasp.gastronomy.restaurant.offermanagement.dataaccess.api.WeeklyPeriodEmbeddable;
@@ -39,7 +40,7 @@ public class SpecialDaoImpl extends ApplicationMasterDataDaoImpl<SpecialEntity> 
   }
 
   @Override
-  public Collection<SpecialEntity> findSpecialOffers(SpecialSearchCriteriaTo criteriaTo) {
+  public List<SpecialEntity> findSpecialOffers(SpecialSearchCriteriaTo criteriaTo) {
 
     SpecialEntity special = Alias.alias(SpecialEntity.class);
     EntityPathBase<SpecialEntity> alias = $(special);
@@ -50,8 +51,8 @@ public class SpecialDaoImpl extends ApplicationMasterDataDaoImpl<SpecialEntity> 
       query.where($(special.getName()).eq(criteriaTo.getName()));
     }
 
-    if (criteriaTo.getOffer() != null) {
-      query.where($(special.getOffer()).eq(criteriaTo.getOffer()));
+    if (criteriaTo.getOfferNumber() != null) {
+      query.where($(special.getOffer().getId()).eq(criteriaTo.getOfferNumber()));
     }
 
     if (criteriaTo.getDate() != null) {
@@ -66,6 +67,12 @@ public class SpecialDaoImpl extends ApplicationMasterDataDaoImpl<SpecialEntity> 
       query.where($(activePeriod.getEndingHour()).goe(hour));
     }
     return query.fetch();
+  }
+
+  @Override
+  public Money findBestActiveSpecial(SpecialSearchCriteriaTo specialSearchCriteria) {
+
+    // TODO
   }
 
 }
